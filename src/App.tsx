@@ -6,6 +6,7 @@ import Results from './components/Results/Results';
 import { searchCharacters } from './api/stapi';
 import { getSearchTerm, setSearchTerm } from './utils/storage';
 import type { SearchResult } from './types/character';
+import ErrorButton from './components/ErrorBoundary/ErrorButton';
 
 interface AppState {
   searchTerm: string;
@@ -62,6 +63,9 @@ class App extends Component<object, AppState> {
               error={this.state.error}
             />
           </section>
+          <div className="mt-6 flex justify-end">
+            <ErrorButton />
+          </div>
         </Main>
       </div>
     );
