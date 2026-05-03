@@ -11,18 +11,16 @@ interface SearchParams {
 }
 
 export async function searchCharacters(params: SearchParams = {}): Promise<SearchResult> {
-  const body = new URLSearchParams({
-    pageNumber: String(params.pageNumber ?? 0),
-    pageSize: String(PAGE_SIZE),
-  });
+  const url = new URL(`${BASE_URL}/character/search`);
+  url.searchParams.set('pageNumber', String(params.pageNumber ?? 0));
+  url.searchParams.set('pageSize', String(PAGE_SIZE));
 
   if (params.name) {
-    body.append('name', params.name);
+    url.searchParams.set('name', params.name);
   }
 
-  const response = await fetch(`${BASE_URL}/character/search`, {
+  const response = await fetch(url.toString(), {
     method: 'POST',
-    body,
   });
 
   if (!response.ok) {
