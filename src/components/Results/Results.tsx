@@ -1,6 +1,7 @@
 import type { SearchResult } from '../../types/character';
 import CardList from './CardList';
 import Loader from '../Loader/Loader';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 interface ResultsProps {
   data: SearchResult | null;
@@ -14,7 +15,7 @@ function Results({ data, isLoading, error }: ResultsProps) {
   }
 
   if (error) {
-    return <p className="text-red-600">Error: {error}</p>;
+    return <ErrorMessage message={error} />;
   }
 
   if (data === null) {
