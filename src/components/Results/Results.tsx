@@ -1,5 +1,6 @@
 import type { SearchResult } from '../../types/character';
 import CardList from './CardList';
+import Loader from '../Loader/Loader';
 
 interface ResultsProps {
   data: SearchResult | null;
@@ -9,7 +10,7 @@ interface ResultsProps {
 
 function Results({ data, isLoading, error }: ResultsProps) {
   if (isLoading) {
-    return <p className="text-slate-500">Loading...</p>;
+    return <Loader />;
   }
 
   if (error) {
