@@ -27,3 +27,7 @@ The application searches Star Trek characters via STAPI, persists the search ter
 
 - `main` — baseline setup (Vite, ESLint, Prettier, Tailwind, Husky)
 - `class-components` — current task implementation
+
+## Branch Information
+
+This branch contains the implementation of the **Class Components** task. The `main` branch is intentionally minimal and serves as a baseline only.
