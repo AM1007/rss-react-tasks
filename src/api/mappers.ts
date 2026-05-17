@@ -27,5 +27,6 @@ export function toCharacter(dto: CharacterDTO): Character {
 export function toSearchResult(dto: SearchResponseDTO): SearchResult {
   return {
     items: dto.characters.map(toCharacter),
+    totalPages: dto.page.totalPages,
   };
 }

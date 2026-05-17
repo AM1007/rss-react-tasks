@@ -6,4 +6,5 @@ export interface Character {
 
 export interface SearchResult {
   items: Character[];
+  totalPages: number;
 }

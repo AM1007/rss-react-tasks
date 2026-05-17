@@ -64,6 +64,7 @@ describe('mappers', () => {
 
   it('returns SearchResult with mapped characters', () => {
     const dto = {
+      page: { totalPages: 1 },
       characters: [
         { uid: '1', name: 'Picard', yearOfBirth: null, placeOfBirth: null },
         { uid: '2', name: 'Kirk', yearOfBirth: null, placeOfBirth: null },
@@ -75,16 +76,19 @@ describe('mappers', () => {
         { id: '1', name: 'Picard', description: 'No biographical data available' },
         { id: '2', name: 'Kirk', description: 'No biographical data available' },
       ],
+      totalPages: 1,
     });
   });
 
   it('handles empty characters array', () => {
     const dto = {
+      page: { totalPages: 0 },
       characters: [],
     };
     const result = toSearchResult(dto);
     expect(result).toEqual({
       items: [],
+      totalPages: 0,
     });
   });
 });

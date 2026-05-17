@@ -5,6 +5,11 @@ export interface CharacterDTO {
   placeOfBirth: string | null;
 }
 
+export interface PageDTO {
+  totalPages: number;
+}
+
 export interface SearchResponseDTO {
+  page: PageDTO;
   characters: CharacterDTO[];
 }
