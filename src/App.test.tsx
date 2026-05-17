@@ -2,18 +2,18 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import App from './App';
+import MainPage from './pages/MainPage';
 import * as stapi from './api/stapi';
 
 function renderApp() {
   return render(
     <MemoryRouter>
-      <App />
+      <MainPage />
     </MemoryRouter>,
   );
 }
 
-describe('App', () => {
+describe('MainPage', () => {
   beforeEach(() => {
     localStorage.clear();
     vi.spyOn(stapi, 'searchCharacters').mockResolvedValue({
