@@ -24,6 +24,7 @@ describe('Results', () => {
         { id: '1', name: 'Picard', description: 'desc 1' },
         { id: '2', name: 'Kirk', description: 'desc 2' },
       ],
+      totalPages: 1,
     };
     render(<Results data={data} isLoading={false} error={null} />);
     expect(screen.getByText('Picard')).toBeInTheDocument();
@@ -31,7 +32,7 @@ describe('Results', () => {
   });
 
   it('renders empty state when data has no items', () => {
-    render(<Results data={{ items: [] }} isLoading={false} error={null} />);
+    render(<Results data={{ items: [], totalPages: 0 }} isLoading={false} error={null} />);
     expect(screen.getByText('No results found')).toBeInTheDocument();
   });
 });
