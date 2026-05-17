@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useParams, Outlet, useNavigate } from 'react-router-dom';
 import Header from '../components/Layout/Header';
 import Main from '../components/Layout/Main';
 import Search from '../components/Search/Search';
@@ -13,6 +13,8 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 function MainPage() {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
   const [searchParams, setSearchParams] = useSearchParams();
+  const { detailsId } = useParams<{ detailsId: string }>();
+  const navigate = useNavigate();
   const [data, setData] = useState<SearchResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +23,13 @@ function MainPage() {
 
   useEffect(() => {
     if (!searchParams.has('page')) {
-      setSearchParams({ page: '1' }, { replace: true });
+      setSearchParams(
+        (prev) => {
+          prev.set('page', '1');
+          return prev;
+        },
+        { replace: true },
+      );
     }
   }, [searchParams, setSearchParams]);
 
@@ -51,7 +59,15 @@ function MainPage() {
   };
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: String(newPage) });
+    setSearchParams((prev) => {
+      prev.set('page', String(newPage));
+      return prev;
+    });
+  };
+
+  const handleCloseDetails = () => {
+    const query = searchParams.toString();
+    navigate(`/${query ? `?${query}` : ''}`);
   };
 
   return (
@@ -61,16 +77,25 @@ function MainPage() {
         <section className="mb-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
           <Search initialValue={searchTerm} onSearch={handleSearch} />
         </section>
-        <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-          <Results data={data} isLoading={isLoading} error={error} />
-          {data && (
-            <Pagination
-              currentPage={page}
-              totalPages={data.totalPages}
-              onPageChange={handlePageChange}
-            />
+        <div className={detailsId ? 'grid grid-cols-1 gap-6 lg:grid-cols-2' : ''}>
+          <div onClick={detailsId ? handleCloseDetails : undefined}>
+            <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+              <Results data={data} isLoading={isLoading} error={error} />
+              {data && (
+                <Pagination
+                  currentPage={page}
+                  totalPages={data.totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
+            </section>
+          </div>
+          {detailsId && (
+            <div onClick={(e) => e.stopPropagation()}>
+              <Outlet />
+            </div>
           )}
-        </section>
+        </div>
         <div className="mt-6 flex justify-end">
           <ErrorButton />
         </div>
