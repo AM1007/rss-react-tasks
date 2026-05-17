@@ -1,14 +1,24 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 import * as stapi from './api/stapi';
+
+function renderApp() {
+  return render(
+    <MemoryRouter>
+      <App />
+    </MemoryRouter>,
+  );
+}
 
 describe('App', () => {
   beforeEach(() => {
     localStorage.clear();
     vi.spyOn(stapi, 'searchCharacters').mockResolvedValue({
       items: [{ id: '1', name: 'Picard', description: 'Born 2305. Birthplace: Earth' }],
+      totalPages: 1,
     });
   });
 
@@ -17,7 +27,7 @@ describe('App', () => {
   });
 
   it('renders header and search', async () => {
-    render(<App />);
+    renderApp();
     expect(screen.getByRole('heading', { name: 'Star Trek Characters' })).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Enter character name')).toBeInTheDocument();
     await waitFor(() => {
@@ -26,23 +36,23 @@ describe('App', () => {
   });
 
   it('calls searchCharacters on mount with empty term from localStorage', async () => {
-    render(<App />);
+    renderApp();
     await waitFor(() => {
-      expect(stapi.searchCharacters).toHaveBeenCalledWith({ name: undefined });
+      expect(stapi.searchCharacters).toHaveBeenCalledWith({ name: undefined, pageNumber: 0 });
     });
   });
 
   it('reads search term from localStorage on mount', async () => {
     localStorage.setItem('searchTerm', 'Kirk');
-    render(<App />);
+    renderApp();
     await waitFor(() => {
-      expect(stapi.searchCharacters).toHaveBeenCalledWith({ name: 'Kirk' });
+      expect(stapi.searchCharacters).toHaveBeenCalledWith({ name: 'Kirk', pageNumber: 0 });
     });
   });
 
   it('persists search term to localStorage when user searches', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderApp();
 
     await waitFor(() => {
       expect(screen.getByText('Picard')).toBeInTheDocument();
@@ -59,7 +69,7 @@ describe('App', () => {
 
   it('calls searchCharacters with new term when user searches', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderApp();
 
     await waitFor(() => {
       expect(screen.getByText('Picard')).toBeInTheDocument();
@@ -72,13 +82,13 @@ describe('App', () => {
     await user.click(button);
 
     await waitFor(() => {
-      expect(stapi.searchCharacters).toHaveBeenCalledWith({ name: 'Spock' });
+      expect(stapi.searchCharacters).toHaveBeenCalledWith({ name: 'Spock', pageNumber: 0 });
     });
   });
 
   it('displays error message when API call fails', async () => {
     vi.spyOn(stapi, 'searchCharacters').mockRejectedValue(new Error('Network error'));
-    render(<App />);
+    renderApp();
     await waitFor(() => {
       expect(screen.getByRole('alert')).toHaveTextContent('Network error');
     });
