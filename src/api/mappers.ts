@@ -1,5 +1,5 @@
-import type { CharacterDTO, SearchResponseDTO } from './types';
-import type { Character, SearchResult } from '../types/character';
+import type { CharacterDTO, CharacterDetailsDTO, SearchResponseDTO } from './types';
+import type { Character, CharacterDetails, SearchResult } from '../types/character';
 
 function buildDescription(dto: CharacterDTO): string {
   const { yearOfBirth, placeOfBirth } = dto;
@@ -27,5 +27,20 @@ export function toCharacter(dto: CharacterDTO): Character {
 export function toSearchResult(dto: SearchResponseDTO): SearchResult {
   return {
     items: dto.characters.map(toCharacter),
+    totalPages: dto.page.totalPages,
+  };
+}
+
+export function toCharacterDetails(dto: CharacterDetailsDTO): CharacterDetails {
+  return {
+    id: dto.uid,
+    name: dto.name,
+    yearOfBirth: dto.yearOfBirth,
+    placeOfBirth: dto.placeOfBirth,
+    yearOfDeath: dto.yearOfDeath,
+    placeOfDeath: dto.placeOfDeath,
+    gender: dto.gender,
+    height: dto.height,
+    weight: dto.weight,
   };
 }

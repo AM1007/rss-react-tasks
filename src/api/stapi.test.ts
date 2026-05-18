@@ -13,7 +13,7 @@ describe('searchCharacters', () => {
   it('calls STAPI with default pagination and no name', async () => {
     (fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
-      json: async () => ({ characters: [] }),
+      json: async () => ({ page: { totalPages: 0 }, characters: [] }),
     });
 
     await searchCharacters();
@@ -28,7 +28,7 @@ describe('searchCharacters', () => {
   it('includes name in the URL when provided', async () => {
     (fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
-      json: async () => ({ characters: [] }),
+      json: async () => ({ page: { totalPages: 0 }, characters: [] }),
     });
 
     await searchCharacters({ name: 'Picard' });
@@ -40,7 +40,7 @@ describe('searchCharacters', () => {
   it('uses POST method', async () => {
     (fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
-      json: async () => ({ characters: [] }),
+      json: async () => ({ page: { totalPages: 0 }, characters: [] }),
     });
 
     await searchCharacters();
@@ -53,6 +53,7 @@ describe('searchCharacters', () => {
     (fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
       json: async () => ({
+        page: { totalPages: 0 },
         characters: [{ uid: '1', name: 'Picard', yearOfBirth: 2305, placeOfBirth: 'Earth' }],
       }),
     });
@@ -61,6 +62,7 @@ describe('searchCharacters', () => {
 
     expect(result).toEqual({
       items: [{ id: '1', name: 'Picard', description: 'Born 2305. Birthplace: Earth' }],
+      totalPages: 0,
     });
   });
 
@@ -77,7 +79,7 @@ describe('searchCharacters', () => {
   it('uses custom pageNumber when provided', async () => {
     (fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,
-      json: async () => ({ characters: [] }),
+      json: async () => ({ page: { totalPages: 0 }, characters: [] }),
     });
 
     await searchCharacters({ pageNumber: 3 });
