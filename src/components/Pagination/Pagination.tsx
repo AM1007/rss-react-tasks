@@ -18,18 +18,18 @@ function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) 
         type="button"
         onClick={handlePrev}
         disabled={currentPage === 1}
-        className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-blue-500 dark:hover:bg-blue-400"
       >
         Previous
       </button>
-      <span className="text-slate-700">
+      <span className="text-slate-700 dark:text-slate-300">
         Page {currentPage} of {totalPages}
       </span>
       <button
         type="button"
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-blue-500 dark:hover:bg-blue-400"
       >
         Next
       </button>
