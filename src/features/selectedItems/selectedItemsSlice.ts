@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Character } from '../../types/character';
 import type { RootState } from '../../store';
 
-interface SelectedItemsState {
+export interface SelectedItemsState {
   items: Record<string, Character>;
 }
 

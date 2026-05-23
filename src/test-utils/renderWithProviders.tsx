@@ -1,13 +1,20 @@
 import type { ReactElement } from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { render } from '@testing-library/react';
 import selectedItemsReducer from '../features/selectedItems/selectedItemsSlice';
 
-export const makeTestStore = () =>
+const rootReducer = combineReducers({
+  selectedItems: selectedItemsReducer,
+});
+
+type PreloadedState = Parameters<typeof rootReducer>[0];
+
+export const makeTestStore = (preloadedState?: PreloadedState) =>
   configureStore({
-    reducer: { selectedItems: selectedItemsReducer },
+    reducer: rootReducer,
+    preloadedState,
   });
 
 export type TestStore = ReturnType<typeof makeTestStore>;
@@ -15,10 +22,11 @@ export type TestStore = ReturnType<typeof makeTestStore>;
 interface Options {
   store?: TestStore;
   route?: string;
+  preloadedState?: PreloadedState;
 }
 
 export function renderWithProviders(ui: ReactElement, options: Options = {}) {
-  const store = options.store ?? makeTestStore();
+  const store = options.store ?? makeTestStore(options.preloadedState);
   const initialEntries = options.route ? [options.route] : ['/'];
 
   return {
