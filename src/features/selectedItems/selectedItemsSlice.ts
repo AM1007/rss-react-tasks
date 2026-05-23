@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Character } from '../../types/character';
 import type { RootState } from '../../store';
@@ -32,7 +32,10 @@ const selectedItemsSlice = createSlice({
 export const { toggle, clear } = selectedItemsSlice.actions;
 export default selectedItemsSlice.reducer;
 
-export const selectSelectedItems = (state: RootState) => Object.values(state.selectedItems.items);
+export const selectSelectedItems = createSelector(
+  [(state: RootState) => state.selectedItems.items],
+  (items) => Object.values(items),
+);
 
 export const selectSelectedCount = (state: RootState) =>
   Object.keys(state.selectedItems.items).length;

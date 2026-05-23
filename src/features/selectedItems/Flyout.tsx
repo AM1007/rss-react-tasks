@@ -1,8 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { clear, selectSelectedCount } from './selectedItemsSlice';
+import { clear, selectSelectedCount, selectSelectedItems } from './selectedItemsSlice';
+import { downloadCsv } from './downloadCsv';
 
 function Flyout() {
   const count = useAppSelector(selectSelectedCount);
+  const items = useAppSelector(selectSelectedItems);
   const dispatch = useAppDispatch();
 
   if (count === 0) return null;
@@ -12,7 +14,7 @@ function Flyout() {
   };
 
   const handleDownload = () => {
-    // TODO: implement CSV download in next step
+    downloadCsv(items);
   };
 
   return (

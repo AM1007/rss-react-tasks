@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Flyout from './Flyout';
@@ -65,5 +65,26 @@ describe('Flyout', () => {
     expect(
       screen.queryByRole('region', { name: /selected items actions/i }),
     ).not.toBeInTheDocument();
+  });
+
+  it('triggers download when Download button is clicked', async () => {
+    const user = userEvent.setup();
+    const createObjectURLSpy = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:test');
+    const revokeObjectURLSpy = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
+    const clickSpy = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+
+    renderWithProviders(<Flyout />, {
+      preloadedState: { selectedItems: { items: { '1': character } } },
+    });
+
+    await user.click(screen.getByRole('button', { name: /download/i }));
+
+    expect(createObjectURLSpy).toHaveBeenCalled();
+    expect(clickSpy).toHaveBeenCalled();
+    expect(revokeObjectURLSpy).toHaveBeenCalled();
+
+    createObjectURLSpy.mockRestore();
+    revokeObjectURLSpy.mockRestore();
+    clickSpy.mockRestore();
   });
 });
