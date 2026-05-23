@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { render } from '@testing-library/react';
 import selectedItemsReducer from '../features/selectedItems/selectedItemsSlice';
+import ThemeProvider from '../features/theme/ThemeProvider';
 
 const rootReducer = combineReducers({
   selectedItems: selectedItemsReducer,
@@ -33,7 +34,9 @@ export function renderWithProviders(ui: ReactElement, options: Options = {}) {
     store,
     ...render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={initialEntries}>{ui}</MemoryRouter>
+        <ThemeProvider>
+          <MemoryRouter initialEntries={initialEntries}>{ui}</MemoryRouter>
+        </ThemeProvider>
       </Provider>,
     ),
   };

@@ -1,25 +1,21 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { screen } from '@testing-library/react';
 import Header from './Header';
+import { renderWithProviders } from '../../test-utils/renderWithProviders';
 
 describe('Header', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    document.documentElement.classList.remove('dark');
+  });
+
   it('renders the page title', () => {
-    render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>,
-    );
-    const heading = screen.getByRole('heading', { name: 'Star Trek Characters' });
-    expect(heading).toBeInTheDocument();
+    renderWithProviders(<Header />);
+    expect(screen.getByRole('heading', { name: 'Star Trek Characters' })).toBeInTheDocument();
   });
 
   it('renders a link to the About page', () => {
-    render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>,
-    );
+    renderWithProviders(<Header />);
     const link = screen.getByRole('link', { name: 'About' });
     expect(link).toHaveAttribute('href', '/about');
   });

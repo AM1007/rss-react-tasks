@@ -74,12 +74,12 @@ function MainPage() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <Main>
-        <section className="mb-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="mb-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
           <Search initialValue={searchTerm} onSearch={handleSearch} />
         </section>
         <div className={detailsId ? 'grid grid-cols-1 gap-6 lg:grid-cols-2' : ''}>
           <div onClick={detailsId ? handleCloseDetails : undefined}>
-            <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
               <Results data={data} isLoading={isLoading} error={error} />
               {data && (
                 <Pagination

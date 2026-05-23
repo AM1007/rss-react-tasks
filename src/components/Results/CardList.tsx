@@ -7,7 +7,7 @@ interface CardListProps {
 
 function CardList({ items }: CardListProps) {
   if (items.length === 0) {
-    return <p className="text-slate-500">No results found</p>;
+    return <p className="text-slate-500 dark:text-slate-400">No results found</p>;
   }
 
   return (

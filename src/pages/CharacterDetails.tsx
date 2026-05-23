@@ -38,13 +38,13 @@ function CharacterDetails() {
   };
 
   return (
-    <aside className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+    <aside className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-slate-800">Character Details</h2>
+        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Character Details</h2>
         <button
           type="button"
           onClick={handleClose}
-          className="rounded-md bg-slate-200 px-3 py-1 text-sm font-medium text-slate-700 hover:bg-slate-300"
+          className="rounded-md bg-slate-200 px-3 py-1 text-sm font-medium text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
         >
           Close
         </button>
@@ -52,7 +52,7 @@ function CharacterDetails() {
       {isLoading && <Loader />}
       {error && <ErrorMessage message={error} />}
       {data && (
-        <div className="space-y-2 text-slate-700">
+        <div className="space-y-2 text-slate-700 dark:text-slate-300">
           <p>
             <span className="font-semibold">Name:</span> {data.name}
           </p>

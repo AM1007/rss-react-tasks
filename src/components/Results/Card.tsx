@@ -19,7 +19,7 @@ function Card({ character }: CardProps) {
   };
 
   return (
-    <div className="flex items-start gap-3 rounded-md border border-slate-200 bg-white p-4 shadow-sm hover:border-blue-400 hover:bg-blue-50">
+    <div className="flex items-start gap-3 rounded-md border border-slate-200 bg-white p-4 shadow-sm hover:border-blue-400 hover:bg-blue-50 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-blue-500 dark:hover:bg-slate-700">
       <input
         type="checkbox"
         checked={isSelected}
@@ -31,8 +31,10 @@ function Card({ character }: CardProps) {
         to={`/details/${character.id}${queryString ? `?${queryString}` : ''}`}
         className="block flex-1"
       >
-        <h3 className="text-lg font-semibold text-slate-800">{character.name}</h3>
-        <p className="mt-1 text-sm text-slate-600">{character.description}</p>
+        <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
+          {character.name}
+        </h3>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{character.description}</p>
       </Link>
     </div>
   );
