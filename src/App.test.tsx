@@ -1,16 +1,12 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import * as stapi from './api/stapi';
+import { renderWithProviders } from './test-utils/renderWithProviders';
 
 function renderApp() {
-  return render(
-    <MemoryRouter>
-      <MainPage />
-    </MemoryRouter>,
-  );
+  return renderWithProviders(<MainPage />);
 }
 
 describe('MainPage', () => {
